@@ -69,3 +69,4 @@ public class MotivationController {
         System.out.println("=".repeat(40));
     }
 }
+//아이고야
