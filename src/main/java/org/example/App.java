@@ -40,7 +40,7 @@ public class App {
 
             } else if (cmd.equals("del")) {
 
-                motivationController.delete();
+                motivationController.delete(cmd);
 
             }
             else {

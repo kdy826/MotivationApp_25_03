@@ -4,18 +4,16 @@ public class Motivation {
   public  int id;
   public    String body;
   public    String source;
-  public int del;
+
 
 
     public Motivation(int id, String body, String source) {  //여기에 add 정보를 저장
         this.id = id;
         this.body = body;
         this.source = source;
-        this.del = id;
 
 
     }
-
 
 
     @Override

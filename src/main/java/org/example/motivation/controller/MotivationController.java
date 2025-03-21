@@ -32,25 +32,16 @@ public class MotivationController {
         lastId++;
     }
 
-    public void delete() {
-        System.out.println("=".repeat(40));
-        System.out.printf("   id    /     source      /      body        \n");
+    public void delete(String cmd) {
+        int id = Integer.parseInt(cmd.split(" ")[1]);
 
-        for (int i = motivations.size() - 1; i >= 0; i--) {
-            Motivation motivation = motivations.get(i);
 
-            if (motivation.getSource().length() > 7) {
-                System.out.printf("   %d    /     %s     /      %s        \n", motivation.getId(), motivation.getSource().substring(0, 5) + "...", motivation.getBody());
-                continue;
+        for(Motivation motivation : motivations) { // 모티베이션 순회시킴
+            if(motivation.getId() == id ){
+                motivations.remove(id);
+
             }
-            System.out.printf("   %d    /     %s        /      %s        \n", motivation.getId(), motivation.getSource(), motivation.getBody());
         }
-
-        System.out.println("=".repeat(40));
-        System.out.println("삭제할 번호를 누르시오:");
-        int del = sc.nextInt();
-
-
 
 
 
