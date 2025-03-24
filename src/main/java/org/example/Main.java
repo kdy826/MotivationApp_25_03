@@ -6,8 +6,12 @@ import java.util.Scanner;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-    Scanner sc = new Scanner(System.in);
-    new App(sc).run(); // 메인클래스의 스캐너를 App 클래스로 전송
-        sc.close();
+        Container.init();
+
+        new App().run();
+
+        Container.close();
+ // 메인클래스의 스캐너를 App 클래스로 전송
+
     }
 }

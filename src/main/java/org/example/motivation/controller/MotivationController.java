@@ -1,72 +1,104 @@
-package org.example.motivation.controller;
 
+import org.example.Container;
 import org.example.motivation.entity.Motivation;
+import org.example.motivation.service.MotivationService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class MotivationController {
 
-    int lastId = 0; // 몇 번까지 썼더라?
-    List<Motivation> motivations = new ArrayList<>(); // motivation 저장// 소
-    Scanner sc;
+    private MotivationService motivationService;
 
-    public MotivationController(Scanner sc) {
-        this.sc = sc;
+
+    public MotivationController() {
+        motivationService = new MotivationService();
     }
 
     public void add() {
 
-        int id = lastId + 1;
+//        int id = lastId + 1;
         System.out.print("body : ");
-        String body = sc.nextLine();
+        String body = Container.getScanner().nextLine();
         System.out.print("source : ");
-        String source = sc.nextLine();
+        String source = Container.getScanner().nextLine();
 
-        Motivation motivation = new Motivation(id, body, source);
-
-        motivations.add(motivation);
+//        Motivation motivation = new Motivation(id, body, source);
+//        motivations.add(motivation);
+        int id = motivationService.add(body, source);
 
         System.out.printf("%d번 motivation이 등록됨\n", id);
-        lastId++;
+
+    }
+
+    public void list() {
+        motivationService.showList();
+
     }
 
     public void delete(String cmd) {
         int id = Integer.parseInt(cmd.split(" ")[1]);
 
-
-        for(Motivation motivation : motivations) { // 모티베이션 순회시킴
-            if(motivation.getId() == id ){
-                motivations.remove(id);
-
-            }
-        }
+        int foundIndex = motivationService.getIndexById(id);
 
 
+        if (foundIndex == -1) {
 
-    }
-
-    public void list() {
-        if (motivations.size() == 0) {
-            System.out.println("등록된 moti 없어");
+            System.out.println("해당 moti는 없던데????");
             return;
         }
 
-        System.out.println("=".repeat(40));
-        System.out.printf("   id    /     source      /      body        \n");
+        motivationService.doDelete(id);
 
-        for (int i = motivations.size() - 1; i >= 0; i--) {
-            Motivation motivation = motivations.get(i);
+        System.out.println(id + "번 moti 삭제됨");
+    }
 
-            if (motivation.getSource().length() > 7) {
-                System.out.printf("   %d    /     %s     /      %s        \n", motivation.getId(), motivation.getSource().substring(0, 5) + "...", motivation.getBody());
-                continue;
-            }
-            System.out.printf("   %d    /     %s        /      %s        \n", motivation.getId(), motivation.getSource(), motivation.getBody());
+
+    public void newDelete(String cmd) {
+//        Rq rq = new Rq(cmd);
+//
+//        System.out.println("rq.getParams(\"id\") : " + rq.getParams("id"));
+//
+//        int id = Integer.parseInt(rq.getParams("id"));
+//
+//        Motivation foundMotivation = null;
+//
+//        for (Motivation motivation : motivations) {
+//            if (motivation.getId() == id) {
+//                foundMotivation = motivation;
+//                break;
+//            }
+//        }
+//
+//        if (foundMotivation == null) {
+//            System.out.println("해당 moti는 없던데????");
+//            return;
+//        }
+//
+//        motivations.remove(foundMotivation);
+//        System.out.println(id + "번 moti 삭제됨");
+
+
+    }
+
+    public void edit(String cmd) {
+        int id;
+        try {
+            id = Integer.parseInt(cmd.split(" ")[1]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("명령어 확인해라");
+            return;
         }
 
-        System.out.println("=".repeat(40));
+        Motivation foundMotivation = motivationService.findById(id);
+
+        if (foundMotivation == null) {
+            System.out.println("해당 moti는 없던데????");
+            return;
+        }
+
+        motivationService.doEdit(foundMotivation);
+
+        System.out.println(id + "번 moti 수정됨");
+
     }
 }
-//아이고야
